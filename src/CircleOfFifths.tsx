@@ -14,40 +14,51 @@ export type CircleOfFifthsProps = {
    * Selection callback. Receives the currently selected key as a CircleOfFifthsSelection object.
    * @param selection
    */
-  handleKeySelection?: (selection: CircleOfFifthsSelection ) => void;
+  handleKeySelection?: (selection: CircleOfFifthsSelection) => void;
+  selectedKey: string;
+  showMajorSharps?: boolean;
 };
 
-export const idToSelection = (selectionId): CircleOfFifthsSelection => {
-    const keyDataObject = CIRCLE_OF_FIFTHS_DATA.find((keyData) => {
-        return keyData.idMajor === selectionId || keyData.idMinor === selectionId
-    })
+export const idToSelection = (selectionId, showMajorSharps): CircleOfFifthsSelection => {
+  const keyDataObject = CIRCLE_OF_FIFTHS_DATA.find((keyData) => {
+    return keyData.idMajor === selectionId || keyData.idMinor === selectionId
+  })
 
-    if (!keyDataObject) {
-        throw("Unable to find selected key.")
+  if (!keyDataObject) {
+    throw ("Unable to find selected key.")
+  }
+
+  const selectedKeyIsMajor = keyDataObject.idMajor === selectionId
+
+  let tonic = selectedKeyIsMajor ? keyDataObject.idMajor : keyDataObject.idMinor.slice(0, -1);
+  tonic = tonic.replace("s", "#");
+  let tonicDisplay = "";
+  if (selectedKeyIsMajor) {
+    if (showMajorSharps) {
+      tonicDisplay = keyDataObject.displayMajorSharp;
+    } else {
+      tonicDisplay = keyDataObject.displayMajor;
     }
+  } else {
+    tonicDisplay = keyDataObject.displayRelativeMinor.slice(0, -1);
+  }
+  const tonality = selectedKeyIsMajor ? "major" : "minor"
 
-    const selectedKeyIsMajor = keyDataObject.idMajor === selectionId
-
-    let tonic = selectedKeyIsMajor ? keyDataObject.idMajor : keyDataObject.idMinor.slice(0, -1);
-    tonic = tonic.replace("s", "#");
-    const tonicDisplay = selectedKeyIsMajor ? keyDataObject.displayMajor : keyDataObject.displayRelativeMinor.slice(0, -1)
-    const tonality = selectedKeyIsMajor ? "major" : "minor"
-
-    return {
-        tonic,
-        tonicDisplay,
-        tonality
-    }
+  return {
+    tonic,
+    tonicDisplay,
+    tonality
+  }
 }
 
 export const CircleOfFifths = (props: CircleOfFifthsProps) => {
-  const [selectedKey, setSelectedKey] = useState("")
+  //const [selectedKey, setSelectedKey] = useState("")
+  const { selectedKey, showMajorSharps = false } = props;
 
   const handleClick = (keySelection: string) => {
-    setSelectedKey(keySelection);
 
     if (props.handleKeySelection) {
-      props.handleKeySelection(idToSelection(keySelection));
+      props.handleKeySelection(idToSelection(keySelection, showMajorSharps));
     }
   };
 
@@ -55,7 +66,7 @@ export const CircleOfFifths = (props: CircleOfFifthsProps) => {
     const classList: string[] = []
 
     if (keyId === selectedKey) {
-        classList.push("selected")
+      classList.push("selected")
     }
 
     return " " + classList.join(" ")
@@ -80,39 +91,39 @@ export const CircleOfFifths = (props: CircleOfFifthsProps) => {
         {...CIRCLE_OF_FIFTHS_DATA.map((v, i) => {
           return (
             <>
-            <CircleOfFifthsWedge
-              id={v.idMajor}
-              extraClasses={"major" + selectionClasses(v.idMajor)}
-              onClick={() => {
-                handleClick(v.idMajor);
-              }}
-              r0={180}
-              r1={120}
-              d0={i * 30}
-              d1={(i + 1) * 30}
-              selectable={true}
-            />
+              <CircleOfFifthsWedge
+                id={v.idMajor}
+                extraClasses={"major" + selectionClasses(v.idMajor)}
+                onClick={() => {
+                  handleClick(v.idMajor);
+                }}
+                r0={180}
+                r1={120}
+                d0={i * 30}
+                d1={(i + 1) * 30}
+                selectable={true}
+              />
 
-            <CircleOfFifthsWedge
-              id={v.idMinor}
-              extraClasses={"minor" + selectionClasses(v.idMinor)}
-              onClick={() => {
-                handleClick(v.idMinor);
-              }}
-              r0={120}
-              r1={80}
-              d0={i * 30}
-              d1={(i + 1) * 30}
-              selectable={true}
-            />
+              <CircleOfFifthsWedge
+                id={v.idMinor}
+                extraClasses={"minor" + selectionClasses(v.idMinor)}
+                onClick={() => {
+                  handleClick(v.idMinor);
+                }}
+                r0={120}
+                r1={80}
+                d0={i * 30}
+                d1={(i + 1) * 30}
+                selectable={true}
+              />
 
-            <CircleOfFifthsWedge
+              {/* <CircleOfFifthsWedge
               extraClasses="diminished"
               r0={80}
               r1={50}
               d0={i * 30}
               d1={(i + 1) * 30}
-            />
+            /> */}
 
             </>
           );
@@ -125,35 +136,36 @@ export const CircleOfFifths = (props: CircleOfFifthsProps) => {
           const [major_center_x, major_center_y] = polarToCartesian(200, 200, 150, i * 30);
           const [minor_center_x, minor_center_y] = polarToCartesian(200, 200, 100, i * 30);
           const [diminished_center_x, diminished_center_y] = polarToCartesian(200, 200, 65, i * 30);
+          const majorForDisplay = showMajorSharps ? v.displayMajorSharp : v.displayMajor;
           return (
             <>
-            <text
-              className="cf-theme cf-text"
-              style={{
-                textAnchor: "middle",
-                dominantBaseline: "central",
-                pointerEvents: "none",
-              }}
-              x={major_center_x}
-              y={major_center_y}
-            >
-              {v.displayMajor}
-            </text>
+              <text
+                className="cf-theme cf-text"
+                style={{
+                  textAnchor: "middle",
+                  dominantBaseline: "central",
+                  pointerEvents: "none",
+                }}
+                x={major_center_x}
+                y={major_center_y}
+              >
+                {majorForDisplay}
+              </text>
 
-            <text
-              className="cf-theme cf-text"
-              style={{
-                textAnchor: "middle",
-                dominantBaseline: "central",
-                fontSize: "small",
-                pointerEvents: "none",
-              }}
-              x={minor_center_x} y={minor_center_y}
-            >
-              {v.displayRelativeMinor}
-            </text>
+              <text
+                className="cf-theme cf-text"
+                style={{
+                  textAnchor: "middle",
+                  dominantBaseline: "central",
+                  fontSize: "small",
+                  pointerEvents: "none",
+                }}
+                x={minor_center_x} y={minor_center_y}
+              >
+                {v.displayRelativeMinor}
+              </text>
 
-            <text
+              {/* <text
               className="cf-theme cf-text"
               style={{
                 textAnchor: "middle",
@@ -165,7 +177,7 @@ export const CircleOfFifths = (props: CircleOfFifthsProps) => {
               y={diminished_center_y}
             >
               {v.diminished}
-            </text>
+            </text> */}
             </>
           );
         })}
@@ -214,9 +226,8 @@ const CircleOfFifthsWedge = (props: CircleOfFifthsWedgeProps) => {
     <path
       id={props.id}
       d={segmentPath(200, 200, props.r0, props.r1, props.d0, props.d1)}
-      className={`cf-theme cf-wedge ${props.selectable ? "selectable" : ""} ${
-        props.extraClasses
-      }`}
+      className={`cf-theme cf-wedge ${props.selectable ? "selectable" : ""} ${props.extraClasses
+        }`}
       onClick={props.onClick ? props.onClick : undefined}
     ></path>
   );

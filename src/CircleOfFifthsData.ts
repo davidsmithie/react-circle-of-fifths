@@ -1,6 +1,7 @@
 const CIRCLE_OF_FIFTHS_DATA = [
     {
         displayMajor: "A",
+        displayMajorSharp: "A",
         idMajor: "A",
         displayRelativeMinor: "F♯m",
         idMinor: "Fsm",
@@ -9,6 +10,7 @@ const CIRCLE_OF_FIFTHS_DATA = [
     },
     {
         displayMajor: "E",
+        displayMajorSharp: "E",
         idMajor:  "E",
         displayRelativeMinor: "C♯m",
         idMinor: "Csm",
@@ -17,6 +19,7 @@ const CIRCLE_OF_FIFTHS_DATA = [
     },
     {
         displayMajor: "B",
+        displayMajorSharp: "B",
         idMajor: "B",
         displayRelativeMinor: "G♯m",
         idMinor: "Gsm",
@@ -25,6 +28,7 @@ const CIRCLE_OF_FIFTHS_DATA = [
     },
     {
         displayMajor: "G♭",
+        displayMajorSharp: "F#",
         idMajor: "Gb",
         displayRelativeMinor: "E♭m",
         idMinor: "Ebm",
@@ -33,6 +37,7 @@ const CIRCLE_OF_FIFTHS_DATA = [
     },
     {
         displayMajor: "D♭",
+        displayMajorSharp: "C#",
         idMajor: "Db",
         displayRelativeMinor: "B♭m",
         idMinor: "Bbm",
@@ -41,6 +46,7 @@ const CIRCLE_OF_FIFTHS_DATA = [
     },
     {
         displayMajor: "A♭",
+        displayMajorSharp: "G#",
         idMajor: "Ab",
         displayRelativeMinor: "Fm",
         idMinor: "Fm",
@@ -49,6 +55,7 @@ const CIRCLE_OF_FIFTHS_DATA = [
     },
     {
         displayMajor: "E♭",
+        displayMajorSharp: "D#",
         idMajor: "Eb",
         displayRelativeMinor: "Cm",
         idMinor: "Cm",
@@ -57,6 +64,7 @@ const CIRCLE_OF_FIFTHS_DATA = [
     },
     {
         displayMajor: "B♭",
+        displayMajorSharp: "A#",
         idMajor: "Bb",
         displayRelativeMinor: "Gm",
         idMinor: "Gm",
@@ -65,6 +73,7 @@ const CIRCLE_OF_FIFTHS_DATA = [
     },
     {
         displayMajor: "F",
+        displayMajorSharp: "F",
         idMajor: "F",
         displayRelativeMinor: "Dm",
         idMinor: "Dm",
@@ -73,6 +82,7 @@ const CIRCLE_OF_FIFTHS_DATA = [
     },
     {
         displayMajor: "C",
+        displayMajorSharp: "C",
         idMajor: "C",
         displayRelativeMinor: "Am",
         idMinor: "Am",
@@ -81,6 +91,7 @@ const CIRCLE_OF_FIFTHS_DATA = [
     },
     {
         displayMajor: "G",
+        displayMajorSharp: "G",
         idMajor: "G",
         displayRelativeMinor: "Em",
         idMinor: "Em",
@@ -89,6 +100,7 @@ const CIRCLE_OF_FIFTHS_DATA = [
     },
     {
         displayMajor: "D",
+        displayMajorSharp: "D",
         idMajor: "D",
         displayRelativeMinor: "Bm",
         idMinor: "Bm",
